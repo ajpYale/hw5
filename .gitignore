@@ -1,0 +1,21 @@
+# Secrets: the real key stays local. .env.example is committed.
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# Local tooling and scratch
+.claude/
+*.tmp
+data.zip
+.DS_Store
+Thumbs.db

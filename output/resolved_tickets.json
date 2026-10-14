@@ -1,0 +1,331 @@
+{
+  "generated_from": [
+    "output/audit_trail.json",
+    "data/campus_customs_new.db"
+  ],
+  "business_date": "2026-08-31",
+  "cash": {
+    "starting_balance": 3400.0,
+    "total_paid_out": 3240.0,
+    "ending_balance": 160.0,
+    "matches_cash_accounts": true,
+    "pending_not_covered": [
+      {
+        "request_id": 4,
+        "kind": "purchase_order",
+        "amount": 264.0
+      }
+    ]
+  },
+  "tickets": [
+    {
+      "id": 101,
+      "title": "Bulldog tee",
+      "requester": "Tauhid Zaman",
+      "final_status": "waiting_on_customer",
+      "board_status": "resolved",
+      "outcome": "Size S tee is out of stock (0 on hand). The linked $840 Bulldog Print Co rush-reprint invoice (3 days overdue) was prepared, then approved and paid, which unblocks the reprint. Tauhid was offered M, L or XL; the ticket waits on their choice.",
+      "delegation_chain": [
+        "ticket -> boss",
+        "boss -> inventory",
+        "inventory -> accounting",
+        "boss -> customer_service"
+      ],
+      "agents": [
+        {
+          "agent": "boss",
+          "contribution": "Routed to Inventory first, then Customer Service; confirmed approvals and set the status to waiting_on_customer.",
+          "mcp_tools": [
+            "get_ticket",
+            "list_approval_requests",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "inventory",
+            "customer_service"
+          ],
+          "steps": 7,
+          "tokens": 25443
+        },
+        {
+          "agent": "inventory",
+          "contribution": "Confirmed 0 size S on hand (M 5, L 3, XL 2). Asked Accounting about invoice 501, saw a reprint was already invoiced, and did NOT order a duplicate.",
+          "mcp_tools": [
+            "get_ticket",
+            "check_stock",
+            "list_approval_requests",
+            "list_vendors"
+          ],
+          "delegated_to": [
+            "accounting"
+          ],
+          "steps": 4,
+          "tokens": 12309
+        },
+        {
+          "agent": "accounting",
+          "contribution": "Called by Inventory (depth 2). Found invoice 501 unpaid and 3 days overdue and prepared payment request #1 ($840).",
+          "mcp_tools": [
+            "get_ticket",
+            "check_invoice",
+            "prepare_payment"
+          ],
+          "delegated_to": [],
+          "steps": 4,
+          "tokens": 15795
+        },
+        {
+          "agent": "customer_service",
+          "contribution": "Drafted the reply offering M, L or XL without promising a restock date or mentioning the invoice.",
+          "mcp_tools": [
+            "get_ticket",
+            "check_stock"
+          ],
+          "delegated_to": [],
+          "steps": 2,
+          "tokens": 4590
+        }
+      ],
+      "agents_not_needed": [
+        "facilities"
+      ],
+      "human_approvals": [
+        {
+          "request_id": 1,
+          "kind": "invoice",
+          "amount": 840.0,
+          "prepared_by": "accounting",
+          "status": "approved",
+          "approved_by": "Andrew",
+          "approved_at": "2026-10-14T02:04:21+00:00",
+          "cash_moved": -840.0,
+          "payment": {
+            "id": 1,
+            "kind": "invoice",
+            "ref_id": 501,
+            "amount": 840.0,
+            "account": "checking",
+            "paid_at": "2026-08-31",
+            "approved_by": "Andrew"
+          },
+          "details": "Pay Bulldog Print Co $840.00 for invoice 501 (Rush reprint CC-TEE-WHITE S), due 2026-08-28. Reason: Invoice 501 is open and unpaid, and is 3 days overdue as of 2026-08-31; prepare payment for the overdue rush reprint."
+        }
+      ],
+      "customer_message": "Hi Tauhid, size S is currently unavailable. We have sizes M, L, and XL on hand, but we don’t have a confirmed restock date for size S. Would you like to choose one of the available sizes instead?",
+      "run": {
+        "session_id": "b5977a15f8c2",
+        "model_requests": 17,
+        "total_tokens": 58137
+      }
+    },
+    {
+      "id": 102,
+      "title": "Rent due",
+      "requester": "Elm City Properties",
+      "final_status": "resolved",
+      "board_status": "resolved",
+      "outcome": "Emailed rent notice verified against lease 1 ($2,400 to Elm City Properties, due 2026-09-02). Rent payment prepared, then approved and paid. The lease's next due date moved to 2026-10-02. Fully resolved.",
+      "delegation_chain": [
+        "ticket -> boss",
+        "boss -> facilities",
+        "boss -> accounting",
+        "boss -> accounting"
+      ],
+      "agents": [
+        {
+          "agent": "boss",
+          "contribution": "Routed to Facilities first, then Accounting; sent Accounting back when the pending list contradicted its report; set the status to resolved.",
+          "mcp_tools": [
+            "get_ticket",
+            "list_approval_requests",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "facilities",
+            "accounting"
+          ],
+          "steps": 8,
+          "tokens": 27959
+        },
+        {
+          "agent": "facilities",
+          "contribution": "Verified the notice against lease 1 (landlord, $2,400, due in 2 days) and confirmed no prior payment or pending request.",
+          "mcp_tools": [
+            "get_ticket",
+            "verify_rent_due",
+            "list_payments",
+            "list_approval_requests"
+          ],
+          "delegated_to": [],
+          "steps": 4,
+          "tokens": 9169
+        },
+        {
+          "agent": "accounting",
+          "contribution": "Prepared rent request #2 ($2,400) and flagged that approving everything pending would leave $160. On the second call, confirmed it was approved and paid.",
+          "mcp_tools": [
+            "verify_rent_due",
+            "list_payments",
+            "list_approval_requests",
+            "get_ticket",
+            "prepare_payment"
+          ],
+          "delegated_to": [],
+          "steps": 6,
+          "tokens": 22950
+        }
+      ],
+      "agents_not_needed": [
+        "inventory",
+        "customer_service"
+      ],
+      "human_approvals": [
+        {
+          "request_id": 2,
+          "kind": "rent",
+          "amount": 2400.0,
+          "prepared_by": "accounting",
+          "status": "approved",
+          "approved_by": "Andrew",
+          "approved_at": "2026-10-14T02:04:23+00:00",
+          "cash_moved": -2400.0,
+          "payment": {
+            "id": 2,
+            "kind": "rent",
+            "ref_id": 1,
+            "amount": 2400.0,
+            "account": "checking",
+            "paid_at": "2026-08-31",
+            "approved_by": "Andrew"
+          },
+          "details": "Pay Elm City Properties $2,400.00 for rent for Chapel Street shop, due 2026-09-02. Reason: Lease 1 matches the Elm City Properties rent notice for $2,400 due 2026-09-02; it is due in 2 days as of 2026-08-31, with no rent payment or pending request on file."
+        }
+      ],
+      "customer_message": null,
+      "run": {
+        "session_id": "f8f29f26f5f4",
+        "model_requests": 18,
+        "total_tokens": 60078
+      }
+    },
+    {
+      "id": 103,
+      "title": "Bulk hoodie discount",
+      "requester": "Yale AI Club",
+      "final_status": "waiting_on_approval",
+      "board_status": "resolved",
+      "outcome": "8 of 20 size M hoodies on hand (12 short). A 10% bulk discount ($52.20/unit, $1,044.00, 57.9% margin) was approved. The 12-unit $264 restock PO is still pending because checking ($160) can't cover it.",
+      "delegation_chain": [
+        "ticket -> boss",
+        "boss -> accounting",
+        "boss -> inventory",
+        "boss -> customer_service"
+      ],
+      "agents": [
+        {
+          "agent": "boss",
+          "contribution": "Sent Accounting and Inventory out in parallel, then Customer Service; set the status to waiting_on_approval.",
+          "mcp_tools": [
+            "get_ticket",
+            "list_approval_requests",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "accounting",
+            "inventory",
+            "customer_service"
+          ],
+          "steps": 5,
+          "tokens": 17273
+        },
+        {
+          "agent": "accounting",
+          "contribution": "Quoted 10% and 15% and prepared price override request #3 at 10% ($1,044.00 total, 57.9% margin).",
+          "mcp_tools": [
+            "get_ticket",
+            "quote_bulk_discount",
+            "prepare_price_override"
+          ],
+          "delegated_to": [],
+          "steps": 4,
+          "tokens": 15122
+        },
+        {
+          "agent": "inventory",
+          "contribution": "Found 8 of 20 on hand (12 short), chose Bulldog Print Co (5-day lead) and prepared PO request #4 for 12 units ($264, arriving about 2026-09-05).",
+          "mcp_tools": [
+            "get_ticket",
+            "check_stock",
+            "list_approval_requests",
+            "list_vendors",
+            "prepare_purchase_order"
+          ],
+          "delegated_to": [],
+          "steps": 5,
+          "tokens": 15059
+        },
+        {
+          "agent": "customer_service",
+          "contribution": "Drafted the reply: 8 available now, 12 estimated around Sept 5, discount pending approval, other sizes available.",
+          "mcp_tools": [
+            "get_ticket",
+            "check_stock",
+            "list_approval_requests"
+          ],
+          "delegated_to": [],
+          "steps": 2,
+          "tokens": 5182
+        }
+      ],
+      "agents_not_needed": [
+        "facilities"
+      ],
+      "human_approvals": [
+        {
+          "request_id": 3,
+          "kind": "price_override",
+          "amount": 1044.0,
+          "prepared_by": "accounting",
+          "status": "approved",
+          "approved_by": "Andrew",
+          "approved_at": "2026-10-14T02:04:23+00:00",
+          "cash_moved": 0.0,
+          "payment": null,
+          "details": "10.0% off 20 x CC-HOOD-NAVY M: $52.20/unit (list $58.00), total $1,044.00, margin 57.9%. Reason: Recommend a reasonable 10% bulk discount for 20 hoodies; the quote shows a 57.9% margin, above the 30% minimum."
+        },
+        {
+          "request_id": 4,
+          "kind": "purchase_order",
+          "amount": 264.0,
+          "prepared_by": "inventory",
+          "status": "pending",
+          "approved_by": null,
+          "approved_at": null,
+          "cash_moved": 0.0,
+          "payment": null,
+          "details": "Order 12 x CC-HOOD-NAVY M from Bulldog Print Co at $22.00/unit; arrives about 2026-09-05 if approved today. Reason: Stock check shows 8 size M hoodies on hand against demand for 20, leaving a shortfall of 12."
+        }
+      ],
+      "customer_message": "Yale AI Club, we currently have 8 of the 20 navy hoodies you requested in size M, so we're short 12. We have other sizes available: S (4), L (14), and XL (6). A 12-hoodie size M restock is awaiting approval; if approved today, we estimate it would arrive around September 5, 2026. We're also proposing a 10% bulk discount, pending approval, so it isn't final yet. Let us know if you'd like to consider the available sizes or wait for our confirmation on the restock and discount.",
+      "run": {
+        "session_id": "93ed2a0f0e07",
+        "model_requests": 16,
+        "total_tokens": 52636
+      },
+      "reruns": [
+        {
+          "session_id": "53b6205e7f21",
+          "delegation_chain": [
+            "ticket -> boss",
+            "boss -> accounting",
+            "boss -> inventory",
+            "boss -> customer_service"
+          ],
+          "model_requests": 13,
+          "total_tokens": 45756,
+          "note": "Run again after the discount was approved. Agents found #3 approved and #4 pending; nothing new was prepared."
+        }
+      ]
+    }
+  ]
+}

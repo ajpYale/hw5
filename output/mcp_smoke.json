@@ -1,0 +1,89 @@
+[
+  {
+    "prompt": "Ticket 101 (customer_order, Tauhid Zaman): can we fill 1 x CC-TEE-WHITE (Classic Bulldog Tee) in size S from stock? If not, what other sizes are on hand?",
+    "tool": "check_stock",
+    "arguments": {
+      "sku": "CC-TEE-WHITE",
+      "size": "S",
+      "qty_requested": 1
+    },
+    "output": {
+      "sku": "CC-TEE-WHITE",
+      "name": "Classic Bulldog Tee",
+      "size": "S",
+      "location": "Aisle B",
+      "qty_on_hand": 0,
+      "qty_requested": 1,
+      "can_fulfill": false,
+      "shortfall": 1,
+      "list_price": 28,
+      "other_sizes": [
+        {
+          "size": "L",
+          "qty_on_hand": 3
+        },
+        {
+          "size": "M",
+          "qty_on_hand": 5
+        },
+        {
+          "size": "XL",
+          "qty_on_hand": 2
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Ticket 102 (rent_notice, Elm City Properties): the email says shop rent is due in 2 days. Verify it against lease 1 and check whether we have the cash to pay it.",
+    "tool": "verify_rent_due",
+    "arguments": {
+      "lease_id": 1
+    },
+    "output": {
+      "lease_id": 1,
+      "space_name": "Chapel Street shop",
+      "landlord": "Elm City Properties",
+      "monthly_rent": 2400,
+      "next_due": "2026-09-02",
+      "notes": null,
+      "today": "2026-08-31",
+      "days_until_due": 2,
+      "cash_accounts": [
+        {
+          "name": "checking",
+          "balance": 3400,
+          "as_of": "2026-08-31",
+          "can_cover_rent": true,
+          "balance_after_rent": 1000
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Ticket 103 (price_override, Yale AI Club): quote 20 x CC-HOOD-NAVY (Basic Hoodie Big Yale) in size M at a 15% bulk discount. Is it still above cost, and can we ship 20 from stock?",
+    "tool": "quote_bulk_discount",
+    "arguments": {
+      "sku": "CC-HOOD-NAVY",
+      "size": "M",
+      "qty": 20,
+      "discount_pct": 15
+    },
+    "output": {
+      "sku": "CC-HOOD-NAVY",
+      "name": "Basic Hoodie Big Yale",
+      "size": "M",
+      "qty": 20,
+      "unit_cost": 22,
+      "list_price": 58,
+      "discount_pct": 15,
+      "discounted_unit_price": 49.3,
+      "order_total": 986,
+      "unit_margin": 27.3,
+      "total_margin": 546,
+      "margin_pct": 55.4,
+      "above_cost": true,
+      "qty_on_hand": 8,
+      "shortfall": 12
+    }
+  }
+]
